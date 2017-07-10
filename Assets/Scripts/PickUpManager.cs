@@ -20,6 +20,19 @@ namespace Equilibrium
         private List<PickUpComponent> _pickUps;
         private float _spawnCounter;
 
+        public void SeedPickups()
+        {
+            foreach (var pickup in _pickUpObjects)
+            {
+                pickup.SetActive(false);
+            }
+
+            for (var i = 0; i < StartSpawn; i++)
+            {
+                SpawnPickUp();
+            }
+        }
+
         private void SpawnPickUp()
         {
             var i = 0;
@@ -101,11 +114,6 @@ namespace Equilibrium
 
                 _pickUpObjects.Add(obj);
                 _pickUps.Add(pickUp);
-            }
-
-            for (var i = 0; i < StartSpawn; i++)
-            {
-                SpawnPickUp();
             }
         }
 

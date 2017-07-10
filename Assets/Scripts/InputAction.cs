@@ -2,8 +2,8 @@
 {
     public enum InputAction
     {
-        RotateLeft,
-        RotateRight,
+        HorizontalAxis,
+        VerticalAxis,
         Charge,
         Brake
     }

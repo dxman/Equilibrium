@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Equilibrium
@@ -17,23 +18,11 @@ namespace Equilibrium
         private Transform _mySpriteTransform;
         private Transform _myChargeBarTransform;
 
-        private Dictionary<InputAction, KeyCode> _inputMappings;
+        private Dictionary<InputAction, string> _inputMappings;
         private Vector3 _facing;
         private float _chargePercent;
         private bool _isCharging;
         private bool _isBraking;
-
-        private void RotateLeft()
-        {
-            _mySpriteTransform.Rotate(Vector3.forward * RotateSpeed * Time.deltaTime);
-            UpdateFacing();
-        }
-
-        private void RotateRight()
-        {
-            _mySpriteTransform.Rotate(Vector3.forward * -RotateSpeed * Time.deltaTime);
-            UpdateFacing();
-        }
 
         private void Idle()
         {
@@ -69,26 +58,21 @@ namespace Equilibrium
             _myChargeBarTransform.localScale = chargeBarLocalScale;
         }
 
-        private void BeginBraking()
+        public void BeginBraking()
         {
             _isBraking = true;
             _myRigidbody2D.drag = 8f;
         }
 
-        private void EndBraking()
+        public void EndBraking()
         {
             _isBraking = false;
             _myRigidbody2D.drag = .5f;
         }
 
-        private void UpdateFacing()
-        {
-            _facing = _mySpriteTransform.rotation * Vector3.up;
-            if (_facing == Vector3.zero)
-            {
-                _facing = Vector3.up;
-            }
-        }
+        public float XInput;
+        public float YInput;
+        public bool IsChargeHeld;
 
         private void Awake()
         {
@@ -106,7 +90,7 @@ namespace Equilibrium
                 return;
             }
 
-            _myChargeBarTransform = _myTransform.Find("ChargeBar");
+            _myChargeBarTransform = _mySpriteTransform.Find("ChargeBar");
             if (_myChargeBarTransform == null)
             {
                 Debug.LogError($"Initialization error: Player {Id} does not have a child named ChargeBar.");
@@ -117,22 +101,31 @@ namespace Equilibrium
 
             _isCharging = false;
             _isBraking = false;
-            UpdateFacing();
         }
 
         private void Update()
         {
-            if (Input.GetKey(_inputMappings[InputAction.RotateLeft]))
+            if (Math.Abs(XInput) > 0.1f || Math.Abs(YInput) > 0.1f)
             {
-                RotateLeft();
+                var heading = Mathf.Atan2(
+                    -XInput,
+                    -YInput
+                );
+
+                var target = Quaternion.Euler(0f, 0f, heading * Mathf.Rad2Deg);
+                _mySpriteTransform.rotation = Quaternion.RotateTowards(
+                    _mySpriteTransform.rotation,
+                    target,
+                    RotateSpeed * Time.deltaTime);
+
+                _facing = _mySpriteTransform.rotation * Vector3.up;
+                if (_facing == Vector3.zero)
+                {
+                    _facing = Vector3.up;
+                }
             }
 
-            if (Input.GetKey(_inputMappings[InputAction.RotateRight]))
-            {
-                RotateRight();
-            }
-
-            if (Input.GetKey(_inputMappings[InputAction.Charge]))
+            if (IsChargeHeld)
             {
                 if (!_isCharging)
                 {
@@ -142,15 +135,6 @@ namespace Equilibrium
             else if (_isCharging)
             {
                 Thrust();
-            }
-
-            if (Input.GetKeyDown(_inputMappings[InputAction.Brake]))
-            {
-                BeginBraking();
-            }
-            else if (Input.GetKeyUp(_inputMappings[InputAction.Brake]))
-            {
-                EndBraking();
             }
 
             UpdateCharging();

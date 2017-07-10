@@ -5,6 +5,7 @@
         Title,
         Play,
         Pause,
+        RoundOver,
         GameOver
     };
 }
