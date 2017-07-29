@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Equilibrium
+namespace Equilibrium.Sound
 {
     public class SoundManager : MonoBehaviour
     {

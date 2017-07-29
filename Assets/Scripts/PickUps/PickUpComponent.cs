@@ -1,23 +1,38 @@
 ﻿using System;
+using Equilibrium.Players;
 using UnityEngine;
 
-namespace Equilibrium
+namespace Equilibrium.PickUps
 {
     public class PickUpComponent : MonoBehaviour
     {
         public int Id;
         public int ScoreAmount;
-        public PickUpManager PickUpManager;
+        public bool IsSpawned;
 
         public Color PositiveColor;
         public Color NegativeColor;
 
         private GameManager _gameManager;
-        private SoundManager _soundManager;
 
         private Transform _myTransform;
         private SpriteRenderer _mySpriteRenderer;
         private TextMesh _myTextMesh;
+
+        public Vector3 Position
+        {
+            get { return _myTransform.position; }
+
+            set { _myTransform.position = value; }
+        }
+
+        public void SetActive(bool isActive)
+        {
+            //TODO: Last minute hack. Fix this.
+            if (!_myTransform) _myTransform = GetComponent<Transform>();
+
+            _myTransform.gameObject.SetActive(isActive);
+        }
 
         private void UpdateScore()
         {
@@ -31,9 +46,8 @@ namespace Equilibrium
 
         private void Awake()
         {
-            var gm = GameObject.FindGameObjectWithTag("GameManager");
-            _gameManager = gm.GetComponent<GameManager>();
-            _soundManager = gm.GetComponent<SoundManager>();
+            var gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
+            _gameManager = gameManagerObject.GetComponent<GameManager>();
 
             _myTransform = GetComponent<Transform>();
 
@@ -80,22 +94,15 @@ namespace Equilibrium
             UpdateScore();
         }
 
-        private void OnTriggerEnter2D(Collider2D collider2D)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            var player = collider2D.gameObject.GetComponent<PlayerComponent>();
+            var player = other.gameObject.GetComponent<PlayerComponent>();
             if (player == null) return;
 
             _gameManager.AddScore(player.Id, ScoreAmount);
-            if (ScoreAmount > 0)
-            {
-                _soundManager.PlaySound(SoundType.ScorePositive);
-            }
-            else
-            {
-                _soundManager.PlaySound(SoundType.ScoreNegative);
-            }
 
-            gameObject.SetActive(false);
+            IsSpawned = false;
+            SetActive(false);
         }
     }
 }
