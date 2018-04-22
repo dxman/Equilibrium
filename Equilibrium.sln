@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equilibrium.Core", "Equilibrium.Core.csproj", "{ED4A9E17-2360-4BF6-AFC5-F0F71ED99748}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equilibrium.Core", "Equilibrium.Core\Equilibrium.Core.csproj", "{ED4A9E17-2360-4BF6-AFC5-F0F71ED99748}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equilibrium.Unity", "Equilibrium.Unity\Equilibrium.Unity.csproj", "{8E60B484-F4EC-44EF-4517-56FE89FC39BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equilibrium.Unity.Editor", "Equilibrium.Unity\Equilibrium.Unity.Editor.csproj", "{056D1DAC-48EF-41C4-54B1-28CCC7751D3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{ED4A9E17-2360-4BF6-AFC5-F0F71ED99748}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED4A9E17-2360-4BF6-AFC5-F0F71ED99748}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED4A9E17-2360-4BF6-AFC5-F0F71ED99748}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E60B484-F4EC-44EF-4517-56FE89FC39BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E60B484-F4EC-44EF-4517-56FE89FC39BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E60B484-F4EC-44EF-4517-56FE89FC39BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E60B484-F4EC-44EF-4517-56FE89FC39BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{056D1DAC-48EF-41C4-54B1-28CCC7751D3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{056D1DAC-48EF-41C4-54B1-28CCC7751D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{056D1DAC-48EF-41C4-54B1-28CCC7751D3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{056D1DAC-48EF-41C4-54B1-28CCC7751D3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
